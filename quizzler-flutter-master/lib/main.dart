@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quizBuilder.dart';
 
 QuizBuilder quizBuilder = QuizBuilder();
@@ -98,19 +99,24 @@ class _QuizPageState extends State<QuizPage> {
       ],
     );
   }
-}
 
-void checkAnswer(bool userAnswer) {
-  if (quizBuilder.getAnswer() == userAnswer) {
-    scoreKeper.add(Icon(
-      Icons.check,
-      color: Colors.green,
-    ));
-  } else {
-    scoreKeper.add(Icon(
-      Icons.cancel,
-      color: Colors.red,
-    ));
+  void checkAnswer(bool userAnswer) {
+    if (quizBuilder.quizEnd()) {
+      Alert(context: context, title: "Sucess", desc: "Quiz Completed.").show();
+      scoreKeper = [];
+    } else {
+      if (quizBuilder.getAnswer() == userAnswer) {
+        scoreKeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeper.add(Icon(
+          Icons.cancel,
+          color: Colors.red,
+        ));
+      }
+    }
+    quizBuilder.nextQuestion();
   }
-  quizBuilder.nextQuestion();
 }
